@@ -1,6 +1,7 @@
 'use strict'
 
 const Product = use('App/Models/Product')
+const Database = use('Database')
 /** @typedef {import('@adonisjs/framework/src/Request')} Request */
 /** @typedef {import('@adonisjs/framework/src/Response')} Response */
 /** @typedef {import('@adonisjs/framework/src/View')} View */
@@ -210,6 +211,16 @@ class ProductController {
 
 		await product.delete()
 		return response.status(204).json(null)
+	}
+
+	async top ({ request, response, view }) {
+		const products = await Product.query().where('top_trends', 1).fetch()
+		return response.json(products)
+	}
+
+	async collection ({ request, response, view }) {
+		const products = await Product.query().where('collection', 1).fetch()
+		return response.json(products)
 	}
 }
 

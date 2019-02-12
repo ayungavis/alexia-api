@@ -1,5 +1,7 @@
 'use strict'
 
+const Country = use('App/Models/Country')
+
 class CountryController {
 	/**
 	* Show a list of all promos.
@@ -11,7 +13,8 @@ class CountryController {
 	* @param {View} ctx.view
 	*/
 	async index ({ request, response, view }) {
-		
+		let countries = await Country.all()
+		return response.json(countries)
 	}
 
 	/**
@@ -35,6 +38,17 @@ class CountryController {
 	* @param {Response} ctx.response
 	*/
 	async store ({ request, response }) {
+		const input = request.only([
+			'name',
+			'slug'
+		])
+		const country = new Country()
+
+		country.name = input.name
+		country.slug = input.slug
+
+		await country.save()
+		return response.status(201).json(country)
 	}
 
 	/**
@@ -47,7 +61,8 @@ class CountryController {
 	* @param {View} ctx.view
 	*/
 	async show ({ params, request, response, view }) {
-
+		const country = await Country.find(params.id)
+		return response.json(country)
 	}
 
 	/**
@@ -71,6 +86,21 @@ class CountryController {
 	* @param {Response} ctx.response
 	*/
 	async update ({ params, request, response }) {
+		const input = request.only([
+			'name',
+			'slug'
+		])
+		const country = await Country.find(params.id)
+
+		if (!country) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		country.name = input.name
+		country.slug = input.slug
+
+		await country.save()
+		return response.status(200).json(country)
 	}
 
 	/**
@@ -82,6 +112,14 @@ class CountryController {
 	* @param {Response} ctx.response
 	*/
 	async destroy ({ params, request, response }) {
+		const country = await Country.find(params.id)
+
+		if (!country) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		await country.delete()
+		return response.status(204).json(null)
 	}
 }
 

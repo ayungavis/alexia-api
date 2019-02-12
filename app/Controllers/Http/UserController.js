@@ -1,5 +1,7 @@
 'use strict'
 
+const User = use('App/Models/User')
+
 class UserController {
 	/**
 	* Show a list of all promos.
@@ -11,7 +13,8 @@ class UserController {
 	* @param {View} ctx.view
 	*/
 	async index ({ request, response, view }) {
-		
+		let users = await User.all()
+		return response.json(users)
 	}
 
 	/**
@@ -35,6 +38,27 @@ class UserController {
 	* @param {Response} ctx.response
 	*/
 	async store ({ request, response }) {
+		const input = request.only([
+			'username',
+			'name',
+			'email',
+			'password',
+			'photo',
+			'cover_photo',
+			'description'
+		])
+		const user = new User()
+
+		user.username = input.username
+		user.name = input.name
+		user.email = input.email
+		user.password = input.password
+		user.photo = input.photo
+		user.cover_photo = input.cover_photo
+		user.description = input.description
+
+		await user.save()
+		return response.status(201).json(user)
 	}
 
 	/**
@@ -47,7 +71,8 @@ class UserController {
 	* @param {View} ctx.view
 	*/
 	async show ({ params, request, response, view }) {
-
+		const user = await User.find(params.id)
+		return response.json(user)
 	}
 
 	/**
@@ -71,6 +96,31 @@ class UserController {
 	* @param {Response} ctx.response
 	*/
 	async update ({ params, request, response }) {
+		const input = request.only([
+			'username',
+			'name',
+			'email',
+			'password',
+			'photo',
+			'cover_photo',
+			'description'
+		])
+		const user = await User.find(params.id)
+
+		if (!user) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		user.username = input.username
+		user.name = input.name
+		user.email = input.email
+		user.password = input.password
+		user.photo = input.photo
+		user.cover_photo = input.cover_photo
+		user.description = input.description
+
+		await user.save()
+		return response.status(200).json(user)
 	}
 
 	/**
@@ -82,6 +132,14 @@ class UserController {
 	* @param {Response} ctx.response
 	*/
 	async destroy ({ params, request, response }) {
+		const user = await User.find(params.id)
+
+		if (!user) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		await user.delete()
+		return response.status(204).json(null)
 	}
 }
 

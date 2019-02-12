@@ -38,6 +38,17 @@ class CityController {
 	* @param {Response} ctx.response
 	*/
 	async store ({ request, response }) {
+		const input = request.only([
+			'name',
+			'country_id'
+		])
+		const city = new City()
+
+		city.name = input.name
+		city.country_id = input.country_id
+
+		await city.save()
+		return response.status(201).json(city)
 	}
 
 	/**
@@ -50,7 +61,8 @@ class CityController {
 	* @param {View} ctx.view
 	*/
 	async show ({ params, request, response, view }) {
-
+		const city = await City.find(params.id)
+		return response.json(city)
 	}
 
 	/**
@@ -74,6 +86,21 @@ class CityController {
 	* @param {Response} ctx.response
 	*/
 	async update ({ params, request, response }) {
+		const input = request.only([
+			'name',
+			'country_id'
+		])
+		const city = await City.find(params.id)
+
+		if (!city) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		city.name = input.name
+		city.country_id = input.country_id
+
+		await city.save()
+		return response.status(200).json(city)
 	}
 
 	/**
@@ -85,6 +112,14 @@ class CityController {
 	* @param {Response} ctx.response
 	*/
 	async destroy ({ params, request, response }) {
+		const city = await City.find(params.id)
+
+		if (!city) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		await city.delete()
+		return response.status(204).json(null)
 	}
 }
 

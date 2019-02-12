@@ -20,6 +20,8 @@ Route.group(() => {
 	// Products
 	Route.get('products', 'ProductController.index');
 	Route.get('product/:id', 'ProductController.show');
+	Route.get('products/top', 'ProductController.top');
+	Route.get('products/collection', 'ProductController.collection');
 	Route.post('product', 'ProductController.store');
 	Route.patch('product/:id', 'ProductController.update');
 	Route.delete('product/:id', 'ProductController.destroy');

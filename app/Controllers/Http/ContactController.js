@@ -1,5 +1,7 @@
 'use strict'
 
+const Contact = use('App/Models/Contact')
+
 class ContactController {
 	/**
 	* Show a list of all promos.
@@ -11,7 +13,8 @@ class ContactController {
 	* @param {View} ctx.view
 	*/
 	async index ({ request, response, view }) {
-		
+		let contacts = await Contact.all()
+		return response.json(contacts)
 	}
 
 	/**
@@ -35,6 +38,25 @@ class ContactController {
 	* @param {Response} ctx.response
 	*/
 	async store ({ request, response }) {
+		const input = request.only([
+			'user_id',
+			'address',
+			'city_id',
+			'country_id',
+			'zip_code',
+			'type',
+		])
+		const contact = new Contact()
+
+		contact.user_id = input.user_id
+		contact.address = input.address
+		contact.city_id = input.city_id
+		contact.country_id = input.country_id
+		contact.zip_code = input.zip_code
+		contact.type = input.type
+
+		await contact.save()
+		return response.status(201).json(contact)
 	}
 
 	/**
@@ -47,7 +69,8 @@ class ContactController {
 	* @param {View} ctx.view
 	*/
 	async show ({ params, request, response, view }) {
-
+		const contact = await Contact.find(params.id)
+		return response.json(contact)
 	}
 
 	/**
@@ -71,6 +94,29 @@ class ContactController {
 	* @param {Response} ctx.response
 	*/
 	async update ({ params, request, response }) {
+		const input = request.only([
+			'user_id',
+			'address',
+			'city_id',
+			'country_id',
+			'zip_code',
+			'type',
+		])
+		const contact = await Contact.find(params.id)
+
+		if (!contact) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		contact.user_id = input.user_id
+		contact.address = input.address
+		contact.city_id = input.city_id
+		contact.country_id = input.country_id
+		contact.zip_code = input.zip_code
+		contact.type = input.type
+
+		await contact.save()
+		return response.status(200).json(contact)
 	}
 
 	/**
@@ -82,6 +128,14 @@ class ContactController {
 	* @param {Response} ctx.response
 	*/
 	async destroy ({ params, request, response }) {
+		const contact = await Contact.find(params.id)
+
+		if (!contact) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		await contact.delete()
+		return response.status(204).json(null)
 	}
 }
 

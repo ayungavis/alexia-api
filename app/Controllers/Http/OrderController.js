@@ -1,5 +1,7 @@
 'use strict'
 
+const Order = use('App/Models/Order')
+
 class OrderController {
 	/**
 	* Show a list of all promos.
@@ -11,7 +13,8 @@ class OrderController {
 	* @param {View} ctx.view
 	*/
 	async index ({ request, response, view }) {
-		
+		let orders = await Order.all()
+		return response.json(orders)
 	}
 
 	/**
@@ -35,6 +38,31 @@ class OrderController {
 	* @param {Response} ctx.response
 	*/
 	async store ({ request, response }) {
+		const input = request.only([
+			'product_id',
+			'qty',
+			'price',
+			// 'address_id',
+			// 'shipping_id',
+			// 'payment_method',
+			// 'payment_id',
+			// 'has_done',
+			// 'has_done_at'
+		])
+		const order = new Order()
+
+		order.product_id = input.product_id
+		order.qty = input.qty
+		order.price = input.price
+		// order.address_id = input.address_id
+		// order.shipping_id = input.shipping_id
+		// order.payment_method = input.payment_method
+		// order.payment_id = input.payment_id
+		// order.has_done = input.has_done
+		// order.has_done_at = input.has_done_at
+
+		await order.save()
+		return response.status(201).json(order)
 	}
 
 	/**
@@ -47,7 +75,8 @@ class OrderController {
 	* @param {View} ctx.view
 	*/
 	async show ({ params, request, response, view }) {
-
+		const order = await Order.find(params.id)
+		return response.json(order)
 	}
 
 	/**
@@ -71,6 +100,35 @@ class OrderController {
 	* @param {Response} ctx.response
 	*/
 	async update ({ params, request, response }) {
+		const input = request.only([
+			// 'product_id',
+			'qty',
+			// 'price',
+			// 'address_id',
+			// 'shipping_id',
+			// 'payment_method',
+			// 'payment_id',
+			// 'has_done',
+			// 'has_done_at'
+		])
+		const order = await Order.find(params.id)
+
+		if (!order) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		// order.product_id = input.product_id
+		order.qty = input.qty
+		// order.price = input.price
+		// order.address_id = input.address_id
+		// order.shipping_id = input.shipping_id
+		// order.payment_method = input.payment_method
+		// order.payment_id = input.payment_id
+		// order.has_done = input.has_done
+		// order.has_done_at = input.has_done_at
+
+		await order.save()
+		return response.status(200).json(order)
 	}
 
 	/**
@@ -82,6 +140,14 @@ class OrderController {
 	* @param {Response} ctx.response
 	*/
 	async destroy ({ params, request, response }) {
+		const order = await Order.find(params.id)
+
+		if (!order) {
+			return response.status(404).json({data: 'Resource not found'})
+		}
+
+		await order.delete()
+		return response.status(204).json(null)
 	}
 }
 
