@@ -62,7 +62,7 @@ class ShippingController {
 	*/
 	async show ({ params, request, response, view }) {
 		const shipping = await Shipping.find(params.id)
-		return reponse.json(shipping)
+		return response.json(shipping)
 	}
 
 	/**

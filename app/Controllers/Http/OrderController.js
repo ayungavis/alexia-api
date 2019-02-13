@@ -13,7 +13,7 @@ class OrderController {
 	* @param {View} ctx.view
 	*/
 	async index ({ request, response, view }) {
-		let orders = await Order.all()
+		let orders = await Order.query().with('products').fetch()
 		return response.json(orders)
 	}
 
