@@ -149,6 +149,13 @@ class OrderController {
 		await order.delete()
 		return response.status(204).json(null)
 	}
+
+	async destroyAll ({ request, response }) {
+		const order = await Order.all()
+
+		await order.delete()
+		return response.status(204).json(null)
+	}
 }
 
 module.exports = OrderController

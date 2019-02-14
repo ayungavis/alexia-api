@@ -11,6 +11,14 @@ class Payment extends Model {
 	static get primaryKey() {
 		return 'id'
 	}
+
+	order() {
+		return this.hasMany('App/Models/Order')
+	}
+
+	user() {
+		return this.belongsTo('App/Models/User')
+	}
 }
 
 module.exports = Payment

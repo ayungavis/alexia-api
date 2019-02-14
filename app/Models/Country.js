@@ -11,6 +11,14 @@ class Country extends Model {
 	static get primaryKey() {
 		return 'id'
 	}
+
+	contact() {
+		return this.hasMany('App/Models/Contact')
+	}
+
+	city() {
+		return this.hasMany('App/Models/City')
+	}
 }
 
 module.exports = Country

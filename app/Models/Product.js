@@ -15,6 +15,14 @@ class Product extends Model {
 	order() {
 		return this.hasMany('App/Models/Order')
 	}
+
+	wishlist() {
+		return this.hasMany('App/Models/Wishlist')
+	}
+
+	category() {
+		return this.belongsTo('App/Models/Category')
+	}
 }
 
 module.exports = Product

@@ -11,6 +11,10 @@ class Shipping extends Model {
 	static get primaryKey() {
 		return 'id'
 	}
+
+	order() {
+		return this.hasMany('App/Models/Order')
+	}
 }
 
 module.exports = Shipping

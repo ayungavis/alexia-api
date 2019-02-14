@@ -15,6 +15,18 @@ class Order extends Model {
 	products() {
 		return this.belongsTo('App/Models/Product')
 	}
+
+	contact() {
+		return this.belongsTo('App/Models/Contact')
+	}
+
+	shipping() {
+		return this.belongsTo('App/Models/Shipping')
+	}
+
+	payment() {
+		return this.belongsTo('App/Models/Payment')
+	}
 }
 
 module.exports = Order
