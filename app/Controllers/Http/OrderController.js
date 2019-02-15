@@ -1,6 +1,7 @@
 'use strict'
 
 const Order = use('App/Models/Order')
+const Database = use('Database')
 
 class OrderController {
 	/**
@@ -150,11 +151,9 @@ class OrderController {
 		return response.status(204).json(null)
 	}
 
-	async destroyAll ({ request, response }) {
-		const order = await Order.all()
-
-		await order.delete()
-		return response.status(204).json(null)
+	async truncate ({ request, response }) {
+		const order = await Database.truncate('orders')
+		return response.json(order)
 	}
 }
 

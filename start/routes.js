@@ -39,7 +39,7 @@ Route.group(() => {
 	Route.post('order', 'OrderController.store');
 	Route.patch('order/:id', 'OrderController.update');
 	Route.delete('order/:id', 'OrderController.destroy');
-	Route.delete('order/all', 'OrderController.destroyAll');
+	Route.delete('orders', 'OrderController.truncate');
 
 	// Cities
 	Route.get('cities', 'CityController.index');
