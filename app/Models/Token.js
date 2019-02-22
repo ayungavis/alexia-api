@@ -4,6 +4,13 @@
 const Model = use('Model')
 
 class Token extends Model {
+	static get table() {
+		return 'tokens'
+	}
+
+	static get primaryKey() {
+		return 'id'
+	}
 }
 
 module.exports = Token

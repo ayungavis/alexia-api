@@ -78,7 +78,7 @@ Route.group(() => {
 
 	// Users
 	Route.get('users', 'UserController.index');
-	Route.get('user/:id', 'UserController.show');
+	Route.get('user/:id', 'UserController.show').middleware('auth')
 	Route.post('user', 'UserController.store');
 	Route.patch('user/:id', 'UserController.update');
 	Route.delete('user/:id', 'UserController.destroy');
@@ -89,4 +89,11 @@ Route.group(() => {
 	Route.post('wishlist', 'WishlistController.store');
 	Route.patch('wishlist/:id', 'WishlistController.update');
 	Route.delete('wishlist/:id', 'WishlistController.destroy');
+
+	// Authentication using JWT
+	Route.post('register', 'AuthController.register').as('registerJwt')
+	Route.post('login', 'AuthController.login').as('loginJwt')
+	Route.post('refresh', 'AuthController.refreshToken').as('refreshTokenJwt').middleware(['auth:jwt'])
+	Route.post('logout', 'AuthController.logout').as('logoutJwt').middleware(['auth:jwt'])
+	Route.get('profile', 'AuthController.profile').as('profileJwt').middleware(['auth:jwt'])
 }).prefix('api/v1')

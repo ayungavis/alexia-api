@@ -40,22 +40,22 @@ class UserController {
 	async store ({ request, response }) {
 		const input = request.only([
 			'username',
-			'name',
+			// 'name',
 			'email',
 			'password',
-			'photo',
-			'cover_photo',
-			'description'
+			// 'photo',
+			// 'cover_photo',
+			// 'description'
 		])
 		const user = new User()
 
 		user.username = input.username
-		user.name = input.name
+		// user.name = input.name
 		user.email = input.email
 		user.password = input.password
-		user.photo = input.photo
-		user.cover_photo = input.cover_photo
-		user.description = input.description
+		// user.photo = input.photo
+		// user.cover_photo = input.cover_photo
+		// user.description = input.description
 
 		await user.save()
 		return response.status(201).json(user)
