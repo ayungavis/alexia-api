@@ -15,85 +15,111 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
+const Prefix = 'api/v1';
+
+Route.on('/').render('welcome')
+
+// Products
+Route.group(() => {
+	Route.get('/', 'ProductController.index');
+	Route.get(':id', 'ProductController.show');
+	Route.post('/', 'ProductController.store');
+	Route.patch(':id', 'ProductController.update');
+	Route.delete(':id', 'ProductController.destroy');
+}).prefix(Prefix + '/products')
 
 Route.group(() => {
-	// Products
-	Route.get('products', 'ProductController.index');
-	Route.get('product/:id', 'ProductController.show');
-	Route.get('products/top', 'ProductController.top');
-	Route.get('products/collection', 'ProductController.collection');
-	Route.post('product', 'ProductController.store');
-	Route.patch('product/:id', 'ProductController.update');
-	Route.delete('product/:id', 'ProductController.destroy');
-
-	// Categories
-	Route.get('categories', 'CategoryController.index');
-	Route.get('category/:id', 'CategoryController.show');
-	Route.post('category', 'CategoryController.store');
-	Route.patch('category/:id', 'CategoryController.update');
-	Route.delete('category/:id', 'CategoryController.destroy');
-
-	// Orders
-	Route.get('orders', 'OrderController.index');
-	Route.get('order/:id', 'OrderController.show');
-	Route.post('order', 'OrderController.store');
-	Route.patch('order/:id', 'OrderController.update');
-	Route.delete('order/:id', 'OrderController.destroy');
-	Route.delete('orders', 'OrderController.truncate');
-
-	// Cities
-	Route.get('cities', 'CityController.index');
-	Route.get('city/:id', 'CityController.show');
-	Route.post('city', 'CityController.store');
-	Route.patch('city/:id', 'CityController.update');
-	Route.delete('city/:id', 'CityController.destroy');
-
-	// Countries
-	Route.get('countries', 'CountryController.index');
-	Route.get('country/:id', 'CountryController.show');
-	Route.post('country', 'CountryController.store');
-	Route.patch('country/:id', 'CountryController.update');
-	Route.delete('country/:id', 'CountryController.destroy');
-
-	// Contacts
-	Route.get('contacts', 'ContactController.index');
-	Route.get('contact/:id', 'ContactController.show');
-	Route.post('contact', 'ContactController.store');
-	Route.patch('contact/:id', 'ContactController.update');
-	Route.delete('contact/:id', 'ContactController.destroy');
-
-	// Payments
-	Route.get('payments', 'PaymentController.index');
-	Route.get('payment/:id', 'PaymentController.show');
-	Route.post('payment', 'PaymentController.store');
-	Route.patch('payment/:id', 'PaymentController.update');
-	Route.delete('payment/:id', 'PaymentController.destroy');
-
-	// Shippings
-	Route.get('shippings', 'ShippingController.index');
-	Route.get('shipping/:id', 'ShippingController.show');
-	Route.post('shipping', 'ShippingController.store');
-	Route.patch('shipping/:id', 'ShippingController.update');
-	Route.delete('shipping/:id', 'ShippingController.destroy');
-
-	// Users
-	Route.get('users', 'UserController.index');
-	Route.get('user/:id', 'UserController.show').middleware('auth')
-	Route.post('user', 'UserController.store');
-	Route.patch('user/:id', 'UserController.update');
-	Route.delete('user/:id', 'UserController.destroy');
-
-	// Wishlist
-	Route.get('wishlists', 'WishlistController.index');
-	Route.get('wishlist/:id', 'WishlistController.show');
-	Route.post('wishlist', 'WishlistController.store');
-	Route.patch('wishlist/:id', 'WishlistController.update');
-	Route.delete('wishlist/:id', 'WishlistController.destroy');
-
-	// Authentication using JWT
-	Route.post('register', 'AuthController.register').as('registerJwt')
-	Route.post('login', 'AuthController.login').as('loginJwt')
-	Route.post('refresh', 'AuthController.refreshToken').as('refreshTokenJwt').middleware(['auth:jwt'])
-	Route.post('logout', 'AuthController.logout').as('logoutJwt').middleware(['auth:jwt'])
-	Route.get('profile', 'AuthController.profile').as('profileJwt').middleware(['auth:jwt'])
+  Route.get('top', 'ProductController.top');
+  Route.get('collection', 'ProductController.collection');
 }).prefix('api/v1')
+
+// Categories
+Route.group(() => {
+	Route.get('/', 'CategoryController.index');
+	Route.get(':id', 'CategoryController.show');
+	Route.post('/', 'CategoryController.store');
+	Route.patch(':id', 'CategoryController.update');
+	Route.delete(':id', 'CategoryController.destroy');
+}).prefix(Prefix + '/categories')
+
+// Orders
+Route.group(() => {
+	Route.get('/', 'OrderController.index');
+	Route.get(':id', 'OrderController.show');
+	Route.post('/', 'OrderController.store');
+	Route.patch(':id', 'OrderController.update');
+	Route.delete(':id', 'OrderController.destroy');
+	Route.delete('/', 'OrderController.truncate');
+}).prefix(Prefix + '/orders')
+
+// Cities
+Route.group(() => {
+	Route.get('/', 'CityController.index');
+	Route.get(':id', 'CityController.show');
+	Route.post('/', 'CityController.store');
+	Route.patch(':id', 'CityController.update');
+	Route.delete(':id', 'CityController.destroy');
+}).prefix(Prefix + '/cities')
+
+// Countries
+Route.group(() => {
+	Route.get('/', 'CountryController.index');
+	Route.get(':id', 'CountryController.show');
+	Route.post('/', 'CountryController.store');
+	Route.patch(':id', 'CountryController.update');
+	Route.delete(':id', 'CountryController.destroy');
+}).prefix(Prefix + '/countries')
+
+// Contacts
+Route.group(() => {
+	Route.get('/', 'ContactController.index');
+	Route.get(':id', 'ContactController.show');
+	Route.post('/', 'ContactController.store');
+	Route.patch(':id', 'ContactController.update');
+	Route.delete(':id', 'ContactController.destroy');
+}).prefix(Prefix + '/contacts')
+
+// Payments
+Route.group(() => {
+	Route.get('/', 'PaymentController.index');
+	Route.get(':id', 'PaymentController.show');
+	Route.post('/', 'PaymentController.store');
+	Route.patch(':id', 'PaymentController.update');
+	Route.delete(':id', 'PaymentController.destroy');
+}).prefix(Prefix + '/payments')
+
+// Shippings
+Route.group(() => {
+	Route.get('/', 'ShippingController.index');
+	Route.get(':id', 'ShippingController.show');
+	Route.post('/', 'ShippingController.store');
+	Route.patch(':id', 'ShippingController.update');
+	Route.delete(':id', 'ShippingController.destroy');
+}).prefix(Prefix + '/shipppings')
+
+// Users
+Route.group(() => {
+	Route.get('/', 'UserController.index');
+	Route.get(':id', 'UserController.show').middleware('auth')
+	Route.post('/', 'UserController.store');
+	Route.patch(':id', 'UserController.update');
+	Route.delete(':id', 'UserController.destroy');
+}).prefix(Prefix + '/users')
+
+// Wishlist
+Route.group(() => {
+	Route.get('/', 'WishlistController.index');
+	Route.get(':id', 'WishlistController.show');
+	Route.post('/', 'WishlistController.store');
+	Route.patch(':id', 'WishlistController.update');
+	Route.delete(':id', 'WishlistController.destroy');
+}).prefix(Prefix + '/wishlists')
+
+// Authentication using JWT
+Route.group(() => {
+	Route.post('register', 'AuthController.register');
+	Route.post('login', 'AuthController.login');
+	Route.post('refresh', 'AuthController.refreshToken').middleware('auth');
+	Route.post('logout', 'AuthController.logout').middleware('auth');
+	Route.get('profile', 'AuthController.profile').middleware('auth');
+}).prefix(Prefix + '/auth')

@@ -46,10 +46,10 @@ class ProductController {
 	*/
 	async store ({ request, response }) {
 		const input = request.only([
-			'name', 
-			'shortname', 
-			'description', 
-			'category_id', 
+			'name',
+			'shortname',
+			'description',
+			'category_id',
 			'price',
 			'ratings',
 			'rating_one',
@@ -136,10 +136,10 @@ class ProductController {
 	*/
 	async update ({ params, request, response }) {
 		const input = request.only([
-			'name', 
-			'shortname', 
-			'description', 
-			'category_id', 
+			'name',
+			'shortname',
+			'description',
+			'category_id',
 			'price',
 			'ratings',
 			'rating_one',
